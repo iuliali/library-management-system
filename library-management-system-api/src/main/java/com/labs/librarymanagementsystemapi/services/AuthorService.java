@@ -2,13 +2,17 @@ package com.labs.librarymanagementsystemapi.services;
 
 import com.labs.librarymanagementsystemapi.dtos.AuthorDto;
 import com.labs.librarymanagementsystemapi.dtos.NewAuthorDto;
+import com.labs.librarymanagementsystemapi.exceptions.AuthorNameAlreadyExistException;
 import com.labs.librarymanagementsystemapi.models.Author;
 import com.labs.librarymanagementsystemapi.repositories.AuthorRepository;
 import com.labs.librarymanagementsystemapi.repositories.BookRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,8 +43,19 @@ public class AuthorService {
         return authorDtos;
     }
 
+    public List<Author> getAuthors(String firstName, String lastName) {
+        return authorRepository.findAuthorByFirstNameAndLastName(firstName, lastName);
+    }
+
+
+
+
     @Transactional
-    public void addNewAuthor(NewAuthorDto newAuthorDto) {
+    public void addNewAuthor(NewAuthorDto newAuthorDto) throws AuthorNameAlreadyExistException {
+        List<Author> authors = getAuthors(newAuthorDto.getFirstName(), newAuthorDto.getLastName());
+        if (authors != null) {
+            throw new AuthorNameAlreadyExistException(AuthorService.class);
+        }
         Author author = Author.builder()
                 .firstName(newAuthorDto.getFirstName())
                 .lastName(newAuthorDto.getLastName())

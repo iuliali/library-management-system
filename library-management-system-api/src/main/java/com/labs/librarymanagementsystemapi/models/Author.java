@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@Entity
+@Entity(name= "authors")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
