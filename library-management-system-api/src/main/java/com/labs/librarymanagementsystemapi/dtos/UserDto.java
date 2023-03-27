@@ -1,10 +1,13 @@
 package com.labs.librarymanagementsystemapi.dtos;
 
 import com.labs.librarymanagementsystemapi.enums.Role;
+import com.labs.librarymanagementsystemapi.models.BorrowedBook;
 import com.labs.librarymanagementsystemapi.models.User;
 import lombok.Data;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class UserDto {
@@ -13,6 +16,7 @@ public class UserDto {
     private Role role;
     private String firstName;
     private String lastName;
+    List<BorrowedBook> borrowedBooksList = new ArrayList<>();
 
     public UserDto(User user) {
         this.id = user.getId();
