@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "books")
 @Entity(name = "books")
-@SQLDelete(sql = "UPDATE product_ingredients SET deleted = true WHERE id=?")
+@SQLDelete(sql = "UPDATE books SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
 
 public class Book {
@@ -26,6 +26,10 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private BigInteger id;
+
+    @NotBlank
+    private String title;
+
 
     @ManyToOne
     @JoinColumn(name="author_id", referencedColumnName = "id")
@@ -43,11 +47,28 @@ public class Book {
     private Category category;
 
     @NonNull
+    private Long year;
+
+    @NonNull
     private Long totalNumberOfCopies;
 
-    @NotBlank
+    @NonNull
     private Long availableNumberOfCopies;
 
     private boolean deleted = Boolean.FALSE;
 
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author=" + author +
+                ", borrowHistoryList=" + borrowHistoryList +
+                ", category=" + category +
+                ", year=" + year +
+                ", totalNumberOfCopies=" + totalNumberOfCopies +
+                ", availableNumberOfCopies=" + availableNumberOfCopies +
+                ", deleted=" + deleted +
+                '}';
+    }
 }

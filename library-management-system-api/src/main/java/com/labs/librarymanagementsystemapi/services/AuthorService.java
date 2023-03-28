@@ -53,7 +53,8 @@ public class AuthorService {
     @Transactional
     public void addNewAuthor(NewAuthorDto newAuthorDto) throws AuthorNameAlreadyExistException {
         List<Author> authors = getAuthors(newAuthorDto.getFirstName(), newAuthorDto.getLastName());
-        if (authors != null) {
+        System.out.println(authors);
+        if (!authors.isEmpty()) {
             throw new AuthorNameAlreadyExistException(AuthorService.class);
         }
         Author author = Author.builder()

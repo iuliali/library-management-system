@@ -23,14 +23,23 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private BigInteger id;
 
-    @OneToMany(
-            mappedBy = "author",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<Book> bookList = new ArrayList<>();
+//    @OneToMany(
+//            mappedBy = "author",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true
+//    )
+//    private List<Book> bookList = new ArrayList<>();
     @Column(nullable = false)
     private String firstName;
     @Column(nullable = false)
     private String lastName;
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
 }

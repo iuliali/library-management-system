@@ -14,7 +14,6 @@ import java.util.List;
 public class AuthorDto {
 
     private BigInteger id;
-    private List<BookDto> bookList = new ArrayList<>();
     private String firstName;
     private String lastName;
 }
