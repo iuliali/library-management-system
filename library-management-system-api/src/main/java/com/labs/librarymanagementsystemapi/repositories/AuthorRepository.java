@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AuthorRepository extends JpaRepository<Author, BigInteger> {
@@ -16,5 +17,5 @@ public interface AuthorRepository extends JpaRepository<Author, BigInteger> {
     List<Author> findAuthorByFirstNameAndLastName(String firstName, String lastName);
 
     @Query("SELECT a FROM authors a WHERE a.id=:authorId")
-    Author getAuthorById( BigInteger authorId);
+    Optional<Author> getAuthorById(BigInteger authorId);
 }

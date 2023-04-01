@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-@ControllerAdvice
 
-public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
-    @ExceptionHandler(value = {AuthorNameAlreadyExistException.class,
-            BookAlreadyExistException.class, NegativeNumberCopiesException.class,
-            NegativeYearException.class
+@ControllerAdvice
+public class EntityAlreadyExistExceptionHandler extends ResponseEntityExceptionHandler {
+    @ExceptionHandler(value = {
+            AuthorNameAlreadyExistException.class,
+            BookAlreadyExistException.class
     })
     public ResponseEntity<?> handleBadRequest(EntityAlreadyExistException exception,
                                               WebRequest request) {

@@ -5,7 +5,10 @@ import com.labs.librarymanagementsystemapi.dtos.AuthenticationRequest;
 import com.labs.librarymanagementsystemapi.dtos.CreateUserDto;
 import com.labs.librarymanagementsystemapi.dtos.CustomUserDetails;
 import com.labs.librarymanagementsystemapi.dtos.UserDto;
+import com.labs.librarymanagementsystemapi.exceptions.UserDoesNotExistException;
+import com.labs.librarymanagementsystemapi.models.User;
 import com.labs.librarymanagementsystemapi.repositories.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -43,12 +46,12 @@ public class UserService {
 
         var user = userRepository.findByUsername(
                 authenticationRequest.getUsername()).orElseThrow();
-
         return jwtService.generateToken(
-                Map.of("firstName", user.getFirstName()),
+                Map.of("firstName", user.getFirstName(),
+                        "lastName", user.getLastName(),
+                        "role", user.getRole()),
                 new CustomUserDetails(user)
         );
-
     }
 
     public UserDto findById(BigInteger id) {
@@ -57,4 +60,13 @@ public class UserService {
                 .orElseThrow();
     }
 
+    public User getUserFromHeader(HttpServletRequest request) {
+        var authorizationHeader = request.getHeader("Authorization");
+        var token = authorizationHeader.substring(7);
+        var username = jwtService.extractUsername(token);
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new UserDoesNotExistException(UserService.class)
+        );
+        return user;
+    }
 }

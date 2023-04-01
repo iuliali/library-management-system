@@ -21,8 +21,6 @@ public class AuthController {
     public ResponseEntity<?> register(@Valid @RequestBody CreateUserDto createUserDto,
                                            BindingResult bindingResult) {
         if ( bindingResult.hasErrors()) {
-            System.out.println("hello");
-
             return ResponseEntity.badRequest()
                     .body(bindingResult.getAllErrors());
         }
@@ -31,7 +29,7 @@ public class AuthController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequest authenticationRequest) {
-        return ResponseEntity.ok(userService.authenticate(authenticationRequest));
+        return ResponseEntity.ok(userService.authenticate(authenticationRequest)  );
     }
 
 

@@ -5,6 +5,7 @@ import com.labs.librarymanagementsystemapi.models.Author;
 import com.labs.librarymanagementsystemapi.models.Book;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NonNull;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -16,8 +17,10 @@ public class BookDto {
     private BigInteger id;
     private String title;
 
-
     private Author author;
+    private Long totalNumberOfCopies;
+
+    private Long availableNumberOfCopies;
 
     List<Book> borrowHistoryList = new ArrayList<>();
 
