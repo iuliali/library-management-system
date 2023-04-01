@@ -4,6 +4,8 @@ import com.labs.librarymanagementsystemapi.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
@@ -15,6 +17,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Table(name = "borrowed_books_history")
 @Entity(name = "borrowed_books_history")
+@SQLDelete(sql = "UPDATE books SET deleted = true WHERE id=?")
+@Where(clause = "deleted=false")
+
 public class BorrowedBook {
 
     @Id
@@ -34,5 +39,7 @@ public class BorrowedBook {
     private LocalDateTime borrowedAt;
 
     private LocalDateTime returnedAt;
+
+    private boolean deleted = Boolean.FALSE;
 
 }

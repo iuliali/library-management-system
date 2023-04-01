@@ -6,15 +6,16 @@ import com.labs.librarymanagementsystemapi.enums.Category;
 import com.labs.librarymanagementsystemapi.exceptions.*;
 import com.labs.librarymanagementsystemapi.models.Author;
 import com.labs.librarymanagementsystemapi.models.Book;
+import com.labs.librarymanagementsystemapi.models.BorrowedBook;
 import com.labs.librarymanagementsystemapi.repositories.AuthorRepository;
 import com.labs.librarymanagementsystemapi.repositories.BookRepository;
 import com.labs.librarymanagementsystemapi.repositories.BorrowedBooksRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,7 +73,6 @@ public class BookService {
                 .title(newBookDto.getTitle())
                 .category(newBookDto.getCategory())
                 .year(newBookDto.getYear())
-                .borrowHistoryList(new ArrayList<>())
                 .totalNumberOfCopies(newBookDto.getTotalNumberOfCopies())
                 .availableNumberOfCopies(newBookDto.getAvailableNumberOfCopies())
                 .build();
@@ -122,5 +122,14 @@ public class BookService {
 
     public void returnBook(Book book) {
         book.setAvailableNumberOfCopies(book.getAvailableNumberOfCopies() + 1);
+    }
+
+    @Transactional
+    public void deleteBook(BigInteger id) {
+        Book book = bookRepository.getBookById(id).orElseThrow(() ->
+                new BookDoesNotExistException(BookService.class)
+        );
+        booksHistoryRepository.updateDeletedByBookId(id, true);
+        bookRepository.delete(book);
     }
 }

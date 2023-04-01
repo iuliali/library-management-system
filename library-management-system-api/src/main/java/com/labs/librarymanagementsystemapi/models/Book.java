@@ -35,12 +35,6 @@ public class Book {
     @JoinColumn(name="author_id", referencedColumnName = "id")
     private Author author;
 
-    @OneToMany(
-            mappedBy = "book",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    List<BorrowedBook> borrowHistoryList = new ArrayList<>();
 
 
     @NonNull
@@ -63,7 +57,6 @@ public class Book {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", author=" + author +
-                ", borrowHistoryList=" + borrowHistoryList +
                 ", category=" + category +
                 ", year=" + year +
                 ", totalNumberOfCopies=" + totalNumberOfCopies +

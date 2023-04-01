@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
@@ -50,6 +51,12 @@ public class BookController {
 
         bookService.editDetails(id, bookDetails);
         return new ResponseEntity<>("Successfully edited",HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteBook(@PathVariable BigInteger id) {
+        bookService.deleteBook(id);
+        return new ResponseEntity<>( "Deleted", HttpStatus.OK);
     }
 
 
